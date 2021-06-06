@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Sign Up Page</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='form.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='button.css')}}"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/7056fcee4b.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <div class="form-container">
+    <div class="form-content">
+      <form class="form" action="/signup/" method="POST">
+        <div class="form-title">
+          <h1>
+            <a href="/"> Restaurant Finder <i class="fas fa-utensils"></i> </a>
+          </h1>
+        </div>
+        <h2>Sign up to find your favourite restaurants now!</h2>
+        <div class="form-inputs">
+          <label class="form-label">What's your email?</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            class="form-input"
+            placeholder="Enter email."
+          />
+        </div>
+        <div class="form-inputs">
+          <label class="form-label">What's your username?</label>
+          <input
+            type="text"
+            name="username"
+            class="form-input"
+            placeholder="Enter username."
+          />
+        </div>
+        <div class="form-inputs">
+          <label class="form-label">Create a password.</label>
+          <input
+            type="password"
+            name="password"
+            class="form-input"
+            placeholder="Create a password."
+          />
+        </div>
+        <button class="btn" type="submit" value="submit">Sign Up</button>
+        <div>
+          <div class="form-input-login">
+            Already have an account?
+            <a href="/login">Log In</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</html>

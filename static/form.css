@@ -1,0 +1,136 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.form-errors {
+  color: rgb(255, 0, 0);
+}
+
+.form-container {
+  margin: 100px auto;
+  width: 600px;
+  box-shadow: linear-gradient(90deg, rgb(49, 170, 12) 0%, rgb(37, 109, 3) 100%);
+  position: relative;
+  border-radius: 10px;
+  height: 600px;
+  display: grid;
+}
+
+.form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-content {
+  border-radius: 0 10px 10px 0;
+  position: relative;
+  background: linear-gradient(90deg, rgb(41, 131, 14) 0%, rgb(37, 109, 3) 100%);
+}
+
+.form h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.form h2 {
+  font-size: 1.1rem;
+  margin-bottom: 4rem;
+  color: #fff;
+}
+
+.form-inputs {
+  margin-bottom: 0.7rem;
+  width: 80%;
+  color: #fff;
+}
+
+.form-label {
+  display: inline-block;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.form-input {
+  display: block;
+  padding-left: 10px;
+  outline: none;
+  border-radius: 2px;
+  height: 40px;
+  width: 100%;
+  border: none;
+}
+
+.form-input::placeholder {
+  color: #0e0c0c;
+  font-size: 12px;
+}
+
+.form-input-login {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.form-title a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.sign-up-success {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 220px;
+  color: #fff;
+}
+
+.sign-up-img {
+  width: 15%;
+  height: 15%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form-title-success a {
+  top: 9%;
+  left: 23%;
+  position: absolute;
+  text-align: center;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 34px;
+}
+
+.success-text {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 100px;
+  color: #fff;
+}
+
+.success-form-log-in {
+  position: absolute;
+  top: 65%;
+  left: 248px;
+}
+
+a {
+  color: #fff;
+}
+a:hover {
+  color: white;
+}
