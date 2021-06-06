@@ -1,0 +1,6 @@
+branch-defaults:
+  eb-setup2:
+    environment: null
+    group_suffix: null
+global:
+  profile: null
