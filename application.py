@@ -1,15 +1,15 @@
 from flask import Flask, render_template, request
 
-app = Flask(__name__)
-app.secret_key = "top_secret_key"
+application = Flask(__name__)
+application.secret_key = "top_secret_key"
 
 # route for home page
-@app.route("/")
+@application.route("/")
 def home():
     return render_template("home.html")
 
 # route for sign up page
-@app.route("/signup/", methods=["POST", "GET"])
+@application.route("/signup/", methods=["POST", "GET"])
 def signup():
 
     if request.method == 'POST':
@@ -18,7 +18,7 @@ def signup():
         return render_template("signup.html")
 
 # route for log in page
-@app.route("/login/", methods=["POST", "GET"])
+@application.route("/login/", methods=["POST", "GET"])
 def login():
     
     if request.method == 'POST':
@@ -27,4 +27,6 @@ def login():
         return render_template("login.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # application.run(debug=True)
+    application.debug = True
+    application.run()
