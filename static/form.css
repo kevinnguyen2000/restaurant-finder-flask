@@ -46,7 +46,12 @@
 
 .form h2 {
   font-size: 1.1rem;
-  margin-bottom: 4rem;
+  color: #fff;
+}
+
+.form-subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 10rem;
   color: #fff;
 }
 

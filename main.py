@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+app.secret_key = "top_secret_key"
 
 # route for home page
 @app.route("/")
