@@ -11,3 +11,5 @@ gunicorn==20.0.4;
 flask-dance[sqla]
 blinker
 python-dotenv
+flask-googlemaps=0.4.1
+
