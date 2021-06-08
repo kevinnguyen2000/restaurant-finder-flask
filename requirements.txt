@@ -10,4 +10,4 @@ boto3==0.0.1
 gunicorn==20.0.4;
 flask-dance[sqla]
 blinker
-dotenv
+python-dotenv
