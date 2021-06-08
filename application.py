@@ -26,6 +26,15 @@ def login():
     else:
         return render_template("login.html")
 
+# route for account page
+@application.route("/account/", methods=["POST", "GET"])
+def account():
+    
+    if request.method == 'POST':
+        return render_template("account.html")
+    else:
+        return render_template("account.html")
+
 if __name__ == "__main__":
     # application.run(debug=True)
     application.debug = True

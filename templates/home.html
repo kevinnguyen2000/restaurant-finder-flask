@@ -1,7 +1,12 @@
 <html>
   <head>
     <title>Home Page</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='home.css')}}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
 
     <script
       src="https://kit.fontawesome.com/7056fcee4b.js"
@@ -14,24 +19,34 @@
       rel="stylesheet"
     />
   </head>
-  <nav class="NavbarItems">
-    <h1 class="navbar-logo">
-      Restaurant Finder <i class="fas fa-utensils"></i>
-    </h1>
-    <div class="menu-icon"></div>
-    <ul class="nav-menu">
-      <li class="nav-links">
-        <a>About</a>
-      </li>
-      <li class="nav-links">
-        <a>Contact Us</a>
-      </li>
-      <li class="nav-links">
-        <a href="/signup">Sign Up</a>
-      </li>
-      <li class="nav-links">
-        <a href="login">Log In</a>
-      </li>
-    </ul>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"
+        >Restaurant Finder <i class="fas fa-utensils"></i
+      ></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="col-md-2">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Log In</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </nav>
 </html>
