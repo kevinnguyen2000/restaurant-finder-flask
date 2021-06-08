@@ -35,6 +35,11 @@ def account():
     else:
         return render_template("account.html")
 
+# route for account page
+@application.route("/map/")
+def map():
+    return render_template("map.html")
+
 if __name__ == "__main__":
     # application.run(debug=True)
     application.debug = True
