@@ -8,3 +8,4 @@ Werkzeug==2.0.1
 requests==2.25.1
 boto3==0.0.1
 gunicorn==20.0.4; 
+flask-googlemaps=0.4.1
