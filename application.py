@@ -60,9 +60,27 @@ def signup():
 def login():
     
     if request.method == 'POST':
+        return render_template("login.html")
+    else:
+        return render_template("login.html")
+
+# route for google log in 
+@application.route("/googlelogin/", methods=["POST", "GET"])
+def googleLogin():
+    
+    if request.method == 'POST':
         return redirect(url_for('google.login'))
     else:
         return redirect(url_for('google.login'))
+
+# route for logging out of google account
+@application.route("/googlelogout/", methods=["POST", "GET"])
+def googleLogout():
+
+    google_data = None
+    user_info_endpoint = '/oauth2/v2/userinfo'
+
+    return render_template("home.html", google_data=google_data,fetch_url=google.base_url + user_info_endpoint)
 
 # route for account page
 @application.route("/account/", methods=["POST", "GET"])
