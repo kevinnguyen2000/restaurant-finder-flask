@@ -30,10 +30,6 @@ API_KEY = "AIzaSyDuYX-inYNiuPI5UbgKbBBDu9vyAp3e5Ts"
 
 map_client = googlemaps.Client(API_KEY)
 
-home = "26 Augustine Terrace Glenroy, Victoria, Australia"
-response = map_client.geocode(home)
-print(response)
-
 # route for home page
 @application.route("/") 
 def home():
@@ -91,18 +87,11 @@ def account():
     else:
         return render_template("account.html")
 
-# route for account page
+# route for map page
 @application.route("/map/")
 def mapview():
-    # creating a map in the view
-    mymap = Map(
-        identifier="view-side",
-        lat=37.4419,
-        lng=-122.1419,
-        markers=[(37.4419, -122.1419)]
-    )
     
-    return render_template('map.html', mymap=mymap)
+    return render_template('map.html')
 
 if __name__ == "__main__":
     # application.run(debug=True)
