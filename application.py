@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import os
 from dotenv import load_dotenv
 from flask_dance.contrib.google import make_google_blueprint, google
@@ -37,6 +37,9 @@ def home():
     user_info_endpoint = '/oauth2/v2/userinfo'
     if google.authorized:
         google_data = google.get(user_info_endpoint).json()
+
+        # assigning session to username
+        session['username'] = google_data['name']
 
     return render_template("home.html", google_data=google_data,fetch_url=google.base_url + user_info_endpoint)
 
@@ -90,8 +93,11 @@ def account():
 # route for map page
 @application.route("/map/")
 def mapview():
-    
-    return render_template('map.html')
+
+    # getting session username
+    username = session['username']
+
+    return render_template('map.html', username=username)
 
 if __name__ == "__main__":
     # application.run(debug=True)
