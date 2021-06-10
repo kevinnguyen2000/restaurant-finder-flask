@@ -99,6 +99,22 @@ def mapview():
 
     return render_template('map.html', username=username)
 
+# route for posts post
+@application.route("/posts/")
+def posts():
+
+    user_info_endpoint = '/oauth2/v2/userinfo'
+    if google.authorized:
+        google_data = google.get(user_info_endpoint).json()
+
+        # assigning session to username
+        session['username'] = google_data['name']
+
+    # getting session username
+    username = session['username']
+
+    return render_template('posts.html', username=username, google_data=google_data)
+
 if __name__ == "__main__":
     # application.run(debug=True)
     application.debug = True

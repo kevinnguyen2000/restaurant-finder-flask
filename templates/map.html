@@ -141,7 +141,7 @@ function onPlaceChanged() {
     map.setZoom(15);
     search();
   } else {
-    document.getElementById("autocomplete").placeholder = "Enter a city";
+    document.getElementById("autocomplete").placeholder = "Enter a city.";
   }
 }
 
@@ -233,6 +233,8 @@ function addResult(result, i) {
   tr.appendChild(iconTd);
   tr.appendChild(nameTd);
   results.appendChild(tr);
+  // OUTPUTS RESTAURANT NAME
+  console.log(name)
 }
 
 function clearResults() {
@@ -366,7 +368,7 @@ function buildIWContent(place) {
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <div id="locationField">
-        <input type="text" class="form-control" id="autocomplete" placeholder="Enter City or Suburb name.">
+        <input type="text" class="form-control" id="autocomplete" placeholder="Enter city or suburb.">
       </div>
     </div>
   </div>
