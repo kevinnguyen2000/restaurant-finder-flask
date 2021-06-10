@@ -3,7 +3,6 @@
     <meta name="google-site-verification" content="8kbPsCRi4Vtc0vJTV7avAaUVeAOpPoZ1AckVq4tEU9c" />
     <title>Home Page</title>
 
-    <link rel= "stylesheet" type= "text/css" href="{{ url_for('static',filename='style.css')}}">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
@@ -71,9 +70,25 @@
 
   <div class="row">
     <div class="col-md-6 offset-md-3">
-        <h2>Reccomendations (234)</h2>
-        <a href="/review/"><button type="button" class="btn btn-secondary">Add your own review.</button></a>
+        <h2>Write a Reccomendation.</h2>
+        <h7>Your opinion helps other diners. Thank you!</h7>
         <hr></hr>
+
+        <div class="mb-3">
+            <form action="/review/" method="POST" enctype="multipart/form-data">
+            <label for="review-title" class="form-label">Title of review.</label>
+            <input type="text" class="form-control" id="review-title" placeholder="Summarise your highlight." required>
+          </div>
+          <div class="mb-3">
+            <label for="review-text" class="form-label">Your review.</label>
+            <textarea class="form-control" id="review-text" rows="3" placeholder="Tell others about your experience." required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Any photos to share?</label>
+            <input class="form-control" type="file" id="review-image" required>
+          </div>
+          <button type="submit" value="submit" class="btn btn-secondary">Submit review.</button>
+        </form>
     </div>
   </div>
 
