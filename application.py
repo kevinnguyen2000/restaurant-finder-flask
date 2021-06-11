@@ -8,6 +8,9 @@ from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
 import googlemaps
 import boto3
+import json
+import jsonify
+from boto.s3.connection import S3Connection
 
 application = Flask(__name__)
 application.secret_key = "top_secret_key"
@@ -29,6 +32,9 @@ application.register_blueprint(blueprint, url_prefix="/login/")
 API_KEY = "AIzaSyDuYX-inYNiuPI5UbgKbBBDu9vyAp3e5Ts"
 
 map_client = googlemaps.Client(API_KEY)
+
+# create lambda client
+s3 = boto3.resource('s3')
 
 # route for home page
 @application.route("/") 
@@ -99,6 +105,15 @@ def mapview():
 
     return render_template('map.html', username=username)
 
+# route for map page
+@application.route("/simpleMap/")
+def simpleMapview():
+
+    # getting session username
+    username = session['username']
+
+    return render_template('simpleMap.html', username=username)
+
 # route for posts post
 @application.route("/posts/")
 def posts():
@@ -136,11 +151,10 @@ def review():
         reviewText = request.form.get('review-text')
         reviewImage = request.files.get('review-image')
 
-        s3 = boto3.client("s3")
+        lambda_client = boto3.client('lambda')
 
         # google id
-        googleId = google_data['id']
-
+        googleId = str(google_data['id'])
 
         return render_template('review.html', username=username, google_data=google_data)
     else:
