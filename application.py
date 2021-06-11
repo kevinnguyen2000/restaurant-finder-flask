@@ -7,7 +7,7 @@ import logging
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
 import googlemaps
-
+import boto3
 
 application = Flask(__name__)
 application.secret_key = "top_secret_key"
@@ -130,9 +130,17 @@ def review():
         # getting session username
         username = session['username']
 
-        reviewTitle = request.form['review-title']
-        reviewText = request.form['review-text']
-        reviewImage = request.form['review-image']
+        # getting form inputs
+        reviewTitle = request.form.get('review-title')
+        reviewRestaurant = request.form.get('review-restaurant')
+        reviewText = request.form.get('review-text')
+        reviewImage = request.files.get('review-image')
+
+        s3 = boto3.client("s3")
+
+        # google id
+        googleId = google_data['id']
+
 
         return render_template('review.html', username=username, google_data=google_data)
     else:
@@ -147,6 +155,21 @@ def review():
         username = session['username']
 
         return render_template('review.html', username=username, google_data=google_data)
+
+# function for handling lambda
+def lamdba_handler(event, context, reviewTitle, reviewRestaurant, googleId, reviewText):
+    bucket = 'a3-images'
+
+    review = {}
+    review['title'] = reviewTitle
+    review['restaurant'] = reviewRestaurant
+    review['text'] = reviewText
+    review['user'] = googleId
+
+    fileName = googleId + reviewRestaurant + '.json'
+    uploadByteStream = bytes(json.dumps(review).encode('UTF-8'))
+
+    s3.put_object(Bucket=bucket, Key=filename, Body=uploadByteStream)
 
 if __name__ == "__main__":
     # application.run(debug=True)
