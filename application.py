@@ -46,9 +46,11 @@ bucket = "a3-review-images"
 def home():
     google_data = None
     user_info_endpoint = '/oauth2/v2/userinfo'
+    # print(google_data)
     if google.authorized:
         google_data = google.get(user_info_endpoint).json()
 
+        # print(google_data)
         # assigning session to username
         session['username'] = google_data['name']
 
@@ -86,11 +88,11 @@ def googleLogin():
 # route for logging out of google account
 @application.route("/googlelogout/", methods=["POST", "GET"])
 def googleLogout():
-
+    session.clear()
     google_data = None
     user_info_endpoint = '/oauth2/v2/userinfo'
-
-    return render_template("home.html", google_data=google_data,fetch_url=google.base_url + user_info_endpoint)
+    # print(google_data)
+    return render_template("home.html", google_data=google_data)
 
 # route for account page
 @application.route("/account/", methods=["POST", "GET"])
@@ -280,5 +282,5 @@ def lamdba_handler(event, context, reviewTitle, reviewRestaurant, googleId, revi
 
 if __name__ == "__main__":
     # application.run(debug=True)
-    # application.debug = True
+    application.debug = True
     application.run()
