@@ -4,8 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask_dance.contrib.google import make_google_blueprint, google
 import logging
-from flask_googlemaps import GoogleMaps
-from flask_googlemaps import Map
+
 import googlemaps
 import boto3
 import json
@@ -109,7 +108,7 @@ def mapview():
     # getting session username
     username = session['username']
 
-    return render_template('map.html', username=username)
+    return render_template('map.html', username=username, API_KEY=API_KEY)
 
 # route for map page
 @application.route("/simpleMap/")
@@ -118,7 +117,7 @@ def simpleMapview():
     # getting session username
     username = session['username']
 
-    return render_template('simpleMap.html', username=username)
+    return render_template('simpleMap.html', username=username, API_KEY=API_KEY)
 
 # route for map page from reviews page
 @application.route("/resMap/", methods=["POST", "GET"])
@@ -130,10 +129,10 @@ def resMapview():
     if request.method == 'POST':
         resName = request.form['redirect']
 
-        return render_template('resMap.html', username=username, resName=resName)
+        return render_template('resMap.html', username=username, resName=resName, API_KEY=API_KEY)
 
     else:
-        return render_template('resMap.html', username=username)
+        return render_template('resMap.html', username=username, API_KEY=API_KEY)
 
 
 # route for posts post
