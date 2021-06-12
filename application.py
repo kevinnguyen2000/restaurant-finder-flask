@@ -4,12 +4,9 @@ import os
 from dotenv import load_dotenv
 from flask_dance.contrib.google import make_google_blueprint, google
 import logging
-from flask_googlemaps import GoogleMaps
-from flask_googlemaps import Map
 import googlemaps
 import boto3
 import json
-import jsonify
 from boto.s3.connection import S3Connection
 import requests
 from werkzeug.utils import secure_filename
@@ -19,8 +16,10 @@ application.secret_key = "top_secret_key"
 load_dotenv()
 login_client_id = os.getenv('GOOGLE_CLIENT_ID')
 login_secret = os.getenv('GOOGLE_CLIENT_SECRET')
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
+
+# comment on live versions (not local)
+# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+# os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
 
 blueprint = make_google_blueprint(
     client_id=login_client_id,
@@ -35,8 +34,8 @@ API_KEY = os.getenv('GOOGLE_APIKEY')
 
 map_client = googlemaps.Client(API_KEY)
 
-dynamodb = boto3.resource("dynamodb")
-dynamodb_client = boto3.client('dynamodb')
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+dynamodb_client = boto3.client('dynamodb', region_name='us-east-1')
 table = dynamodb.Table('recommendations')
 
 s3_client = boto3.client('s3')
@@ -109,7 +108,7 @@ def mapview():
     # getting session username
     username = session['username']
 
-    return render_template('map.html', username=username)
+    return render_template('map.html', username=username, API_KEY=API_KEY)
 
 # route for map page
 @application.route("/simpleMap/")
@@ -118,7 +117,7 @@ def simpleMapview():
     # getting session username
     username = session['username']
 
-    return render_template('simpleMap.html', username=username)
+    return render_template('simpleMap.html', username=username, API_KEY=API_KEY)
 
 # route for map page from reviews page
 @application.route("/resMap/", methods=["POST", "GET"])
@@ -130,10 +129,10 @@ def resMapview():
     if request.method == 'POST':
         resName = request.form['redirect']
 
-        return render_template('resMap.html', username=username, resName=resName)
+        return render_template('resMap.html', username=username, resName=resName, API_KEY=API_KEY)
 
     else:
-        return render_template('resMap.html', username=username)
+        return render_template('resMap.html', username=username, API_KEY=API_KEY)
 
 
 # route for posts post
@@ -281,5 +280,5 @@ def lamdba_handler(event, context, reviewTitle, reviewRestaurant, googleId, revi
 
 if __name__ == "__main__":
     # application.run(debug=True)
-    application.debug = True
+    # application.debug = True
     application.run()
