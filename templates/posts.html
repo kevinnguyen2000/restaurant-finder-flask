@@ -74,11 +74,12 @@
         <h2>Recommendations ({{reviewNum}})</h2>
         <a href="/review/"><button type="button" class="btn btn-secondary">Add your own review.</button></a>
         <hr></hr>
+        {% if reviewNum > 0 %}
         {% for i in range(0, reviewNum) %}
         <div class="row">
           <div class="col-md-3 offset-md-3">
         <div class="card" style="width: 18rem;">
-          <img src="..." class="card-img-top" alt="...">
+          <img src=https://a3-review-images.s3.amazonaws.com/{{images[i]}} class="card-img-top">
           <div class="card-body">
             <h5 class="card-title">{{reviews['Items'][i]['reviewTitle']}}</h5>
             <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-map-marker-alt"></i> {{reviews['Items'][i]['resName']}}</h6>
@@ -89,6 +90,7 @@
         </div>
         <br></br>
         {% endfor %}
+        {% endif %}
     </div>
   </div>
 

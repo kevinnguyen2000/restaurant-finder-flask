@@ -39,6 +39,9 @@ dynamodb = boto3.resource("dynamodb")
 dynamodb_client = boto3.client('dynamodb')
 table = dynamodb.Table('recommendations')
 
+s3_client = boto3.client('s3')
+bucket = "a3-review-images"
+
 # route for home page
 @application.route("/") 
 def home():
@@ -131,13 +134,28 @@ def posts():
     # getting session username
     username = session['username']
 
+    # google id
+    googleId = str(google_data['id'])
+
     # get all reviews from table
     reviews = table.scan()
 
     # get the number of reviews
     reviewNum = len(reviews['Items'])
 
-    return render_template('posts.html', username=username, google_data=google_data, reviewNum=reviewNum, reviews=reviews)
+    # get all images
+    images = list()
+    imgName = list()
+
+    # getting artist name in format where we can call from s3
+    for i in range(reviewNum):
+        resName = reviews["Items"][i]['resName']
+        resName = resName.replace(" ","+")
+        imgName = googleId + "%25" + resName
+        images.append(imgName)
+        print(images)
+
+    return render_template('posts.html', username=username, google_data=google_data, reviewNum=reviewNum, reviews=reviews, images=images)
 
 # route for writing a review
 @application.route("/review/", methods=["POST", "GET"])
@@ -155,12 +173,10 @@ def review():
         username = session['username']
 
         # getting form inputs
-        #email = request.form['email']
         reviewTitle = request.form['reviewTitle']
         reviewRestaurant = request.form['reviewRestaurant']
         reviewText = request.form['reviewText']
         reviewImage = request.files['reviewImage']
-        print(reviewImage)
 
         # google id
         googleId = str(google_data['id'])
@@ -171,13 +187,11 @@ def review():
                 'reviewTitle': reviewTitle,
                 'resName': reviewRestaurant,
                 'reviewText': reviewText,
-                'imageName': googleId + "%" + reviewRestaurant
+                'imageName': googleId + "%25" + reviewRestaurant
             }
         )
 
         # upload image
-        s3_client = boto3.client('s3')
-        bucket = "a3-review-images"
 
         filename = secure_filename(reviewImage.filename)
         reviewImage.save(filename)
@@ -187,6 +201,9 @@ def review():
             Filename = filename,
             Key = str(googleId + "%" + reviewRestaurant)
             )
+
+        # removes file
+        os.remove(filename)
 
         # invoke api gateway
         url = "https://0qijwha2wc.execute-api.us-east-1.amazonaws.com/prod/"
@@ -205,8 +222,16 @@ def review():
         reviewNum = len(reviews['Items'])
 
         # get all images
+        images = list()
 
-        return render_template('posts.html', username=username, google_data=google_data, reviewNum=reviewNum, reviews=reviews)
+        # getting artist name in format where we can call from s3
+        for i in range(reviewNum):
+            resName = reviews["Items"][i]['resName']
+            resName = resName.replace(" ","+")
+            imgName = googleId + "%25" + resName
+            images.append(imgName)
+
+        return render_template('posts.html', username=username, google_data=google_data, reviewNum=reviewNum, reviews=reviews, images=images)
     else:
         user_info_endpoint = '/oauth2/v2/userinfo'
         if google.authorized:
