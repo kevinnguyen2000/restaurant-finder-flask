@@ -120,6 +120,22 @@ def simpleMapview():
 
     return render_template('simpleMap.html', username=username)
 
+# route for map page from reviews page
+@application.route("/resMap/", methods=["POST", "GET"])
+def resMapview():
+
+    # getting session username
+    username = session['username']
+
+    if request.method == 'POST':
+        resName = request.form['redirect']
+
+        return render_template('resMap.html', username=username, resName=resName)
+
+    else:
+        return render_template('resMap.html', username=username)
+
+
 # route for posts post
 @application.route("/posts/")
 def posts():

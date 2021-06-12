@@ -76,18 +76,20 @@
         <hr></hr>
         {% if reviewNum > 0 %}
         {% for i in range(0, reviewNum) %}
+        <form action="/resMap/" method="POST">
         <div class="row">
           <div class="col-md-3 offset-md-3">
         <div class="card" style="width: 18rem;">
           <img src=https://a3-review-images.s3.amazonaws.com/{{images[i]}} class="card-img-top">
           <div class="card-body">
             <h5 class="card-title">{{reviews['Items'][i]['reviewTitle']}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-map-marker-alt"></i> {{reviews['Items'][i]['resName']}}</h6>
+            <button class="btn btn-white" name="redirect" value="{{reviews['Items'][i]['resName']}}" type="submit" style="text-decoration: none;"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-map-marker-alt"></i> {{reviews['Items'][i]['resName']}}</h6></button>
             <p class="card-text">{{reviews['Items'][i]['reviewText']}}</p>
             </div>
             </div>
           </div>
         </div>
+      </form>
         <br></br>
         {% endfor %}
         {% endif %}
