@@ -99,14 +99,18 @@
         <div class="card-img-overlay text-center">
           <div class="card-body">
             <br></br>
+            
+            {% if google_data %}
             <h3 class="card-title">Find your favourite resturants!</h3>
             <p class="card-text">
               
             </p>
-            {% if google_data %}
-            
             <a href="/map"><button type="button" class="btn btn-light">Find restaurants near you.</button></a>
             <a href="/simpleMap"><button type="button" class="btn btn-light">Find where a restaurant is.</button></a>
+            {% else %}
+            
+            <h3 class="card-title">Log in to use Restaurant Finder.</h3>
+            
             {% endif %}
           </div>
         </div>
@@ -125,13 +129,13 @@
         <div class="card-img-overlay text-center">
           <div class="card-body">
             <br></br>
+            {% if google_data %}
             <h3 class="card-title">See what others think!</h3>
             <p class="card-text">
-              
             </p>
-            {% if google_data %}
-            
             <a href="/posts"><button type="button" class="btn btn-light">View reccomendations.</button></a>
+            {% else %}
+
             {% endif %}
           </div>
         </div>
