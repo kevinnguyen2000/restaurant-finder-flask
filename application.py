@@ -165,11 +165,8 @@ def posts():
 
     # getting artist name in format where we can call from s3
     for i in range(reviewNum):
-        resName = reviews["Items"][i]['resName']
-        resName = resName.replace(" ","+")
-        imgName = googleId + "%25" + resName
+        imgName = reviews["Items"][i]['imageName']
         images.append(imgName)
-        print(images)
 
     return render_template('posts.html', username=username, google_data=google_data, reviewNum=reviewNum, reviews=reviews, images=images)
 
@@ -197,13 +194,18 @@ def review():
         # google id
         googleId = str(google_data['id'])
 
+        # image name
+        imageName = googleId + "%25" + reviewRestaurant
+        # format imageName for s3
+        imageName = imageName.replace(" ","+")
+
         # put item in dynamodb
         table.put_item(
             Item={
                 'reviewTitle': reviewTitle,
                 'resName': reviewRestaurant,
                 'reviewText': reviewText,
-                'imageName': googleId + "%25" + reviewRestaurant
+                'imageName': imageName
             }
         )
 
@@ -222,7 +224,7 @@ def review():
         os.remove(filename)
 
         # invoke api gateway
-        url = "https://0qijwha2wc.execute-api.us-east-1.amazonaws.com/prod/"
+        url = "https://0qijwha2wc.execute-api.us-east-1.amazonaws.com/prod"
 
         headers = {"Content-Type": "application/json"}
         params = {"qs": "somevalue"}
@@ -239,12 +241,13 @@ def review():
 
         # get all images
         images = list()
+        
+        # format imageName for s3
+        imageName = imageName.replace(" ","+")
 
         # getting artist name in format where we can call from s3
         for i in range(reviewNum):
-            resName = reviews["Items"][i]['resName']
-            resName = resName.replace(" ","+")
-            imgName = googleId + "%25" + resName
+            imgName = reviews["Items"][i]['imageName']
             images.append(imgName)
 
         return render_template('posts.html', username=username, google_data=google_data, reviewNum=reviewNum, reviews=reviews, images=images)
