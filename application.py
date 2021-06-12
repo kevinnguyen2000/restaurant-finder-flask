@@ -18,8 +18,8 @@ login_client_id = os.getenv('GOOGLE_CLIENT_ID')
 login_secret = os.getenv('GOOGLE_CLIENT_SECRET')
 
 # comment on live versions (not local)
-# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-# os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
 
 blueprint = make_google_blueprint(
     client_id=login_client_id,
