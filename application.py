@@ -12,6 +12,7 @@ import json
 import jsonify
 from boto.s3.connection import S3Connection
 import requests
+from werkzeug.utils import secure_filename
 
 application = Flask(__name__)
 application.secret_key = "top_secret_key"
@@ -130,7 +131,13 @@ def posts():
     # getting session username
     username = session['username']
 
-    return render_template('posts.html', username=username, google_data=google_data)
+    # get all reviews from table
+    reviews = table.scan()
+
+    # get the number of reviews
+    reviewNum = len(reviews['Items'])
+
+    return render_template('posts.html', username=username, google_data=google_data, reviewNum=reviewNum, reviews=reviews)
 
 # route for writing a review
 @application.route("/review/", methods=["POST", "GET"])
@@ -148,41 +155,58 @@ def review():
         username = session['username']
 
         # getting form inputs
-        reviewTitle = request.form.get('review-title')
-        reviewRestaurant = request.form.get('review-restaurant')
-        reviewText = request.form.get('review-text')
-        reviewImage = request.files.get('review-image')
-
-        # put item in dynamodb
-        response = table.put_item(
-        Item={
-            'year': year,
-            'title': title,
-            'info': {
-                'plot': plot,
-                'rating': rating
-                }
-            }
-        )
-
-        
-        
-
-        #table = dynamodb.Table("recommendations")
-
-        url = "https://0qijwha2wc.execute-api.us-east-1.amazonaws.com/prod"
-
-        headers = {"Content-Type": "application/json"}
-        params = {"qs": "somevalue"}
-        data_payload = {"payload": reviewRestaurant}
-
-        r = requests.request("POST", url, params=params, data=data_payload)
-        print(r.content)
+        #email = request.form['email']
+        reviewTitle = request.form['reviewTitle']
+        reviewRestaurant = request.form['reviewRestaurant']
+        reviewText = request.form['reviewText']
+        reviewImage = request.files['reviewImage']
+        print(reviewImage)
 
         # google id
         googleId = str(google_data['id'])
 
-        return render_template('review.html', username=username, google_data=google_data)
+        # put item in dynamodb
+        table.put_item(
+            Item={
+                'reviewTitle': reviewTitle,
+                'resName': reviewRestaurant,
+                'reviewText': reviewText,
+                'imageName': googleId + "%" + reviewRestaurant
+            }
+        )
+
+        # upload image
+        s3_client = boto3.client('s3')
+        bucket = "a3-review-images"
+
+        filename = secure_filename(reviewImage.filename)
+        reviewImage.save(filename)
+
+        s3_client.upload_file(
+            Bucket = bucket,
+            Filename = filename,
+            Key = str(googleId + "%" + reviewRestaurant)
+            )
+
+        # invoke api gateway
+        url = "https://0qijwha2wc.execute-api.us-east-1.amazonaws.com/prod/"
+
+        headers = {"Content-Type": "application/json"}
+        params = {"qs": "somevalue"}
+        data_payload = {"payload": "payload"}
+
+        r = requests.request("POST", url, params=params, data=data_payload)
+        print(r.text)
+
+        # get all reviews from table
+        reviews = table.scan()
+
+        # get the number of reviews
+        reviewNum = len(reviews['Items'])
+
+        # get all images
+
+        return render_template('posts.html', username=username, google_data=google_data, reviewNum=reviewNum, reviews=reviews)
     else:
         user_info_endpoint = '/oauth2/v2/userinfo'
         if google.authorized:

@@ -77,19 +77,19 @@
           <div class="mb-3">
             <form action="/review/" method="POST" enctype="multipart/form-data">
             <label for="review-title" class="form-label">Title of review.</label>
-            <input type="text" class="form-control" id="review-title" placeholder="Summarise your highlight." required>
+            <input type="text" class="form-control" name="reviewTitle" placeholder="Summarise your highlight." required>
           </div>
           <div class="mb-3">
             <label for="review-restaurant" class="form-label">Name of restaurant.</label>
-            <input type="text" class="form-control" id="review-restaurant" placeholder="Restaurant name." required>
+            <input type="text" class="form-control" name="reviewRestaurant" placeholder="Restaurant name." required>
           </div>
           <div class="mb-3">
             <label for="review-text" class="form-label">Your review.</label>
-            <textarea class="form-control" id="review-text" rows="3" placeholder="Tell others about your experience." required></textarea>
+            <textarea class="form-control" name="reviewText" rows="3" placeholder="Tell others about your experience." required></textarea>
           </div>
           <div class="mb-3">
             <label for="formFile" class="form-label">Any photos to share?</label>
-            <input class="form-control" type="file" id="review-image" required>
+            <input class="form-control" type="file" name="reviewImage" required>
           </div>
           <button type="submit" value="submit" class="btn btn-secondary">Submit review.</button>
         </form>
