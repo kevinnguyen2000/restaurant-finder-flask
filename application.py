@@ -30,11 +30,13 @@ blueprint = make_google_blueprint(
 
 application.register_blueprint(blueprint, url_prefix="/login/")
 
-API_KEY = "AIzaSyDuYX-inYNiuPI5UbgKbBBDu9vyAp3e5Ts"
+API_KEY = os.getenv('GOOGLE_APIKEY')
 
 map_client = googlemaps.Client(API_KEY)
 
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.resource("dynamodb")
+dynamodb_client = boto3.client('dynamodb')
+table = dynamodb.Table('recommendations')
 
 # route for home page
 @application.route("/") 
@@ -152,6 +154,17 @@ def review():
         reviewImage = request.files.get('review-image')
 
         # put item in dynamodb
+        response = table.put_item(
+        Item={
+            'year': year,
+            'title': title,
+            'info': {
+                'plot': plot,
+                'rating': rating
+                }
+            }
+        )
+
         
         
 
