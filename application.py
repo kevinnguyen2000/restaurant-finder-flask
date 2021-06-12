@@ -11,6 +11,7 @@ import boto3
 import json
 import jsonify
 from boto.s3.connection import S3Connection
+import requests
 
 application = Flask(__name__)
 application.secret_key = "top_secret_key"
@@ -33,8 +34,7 @@ API_KEY = "AIzaSyDuYX-inYNiuPI5UbgKbBBDu9vyAp3e5Ts"
 
 map_client = googlemaps.Client(API_KEY)
 
-# create lambda client
-s3 = boto3.resource('s3')
+dynamodb = boto3.resource('dynamodb')
 
 # route for home page
 @application.route("/") 
@@ -151,7 +151,20 @@ def review():
         reviewText = request.form.get('review-text')
         reviewImage = request.files.get('review-image')
 
-        lambda_client = boto3.client('lambda')
+        # put item in dynamodb
+        
+        
+
+        #table = dynamodb.Table("recommendations")
+
+        url = "https://0qijwha2wc.execute-api.us-east-1.amazonaws.com/prod"
+
+        headers = {"Content-Type": "application/json"}
+        params = {"qs": "somevalue"}
+        data_payload = {"payload": reviewRestaurant}
+
+        r = requests.request("POST", url, params=params, data=data_payload)
+        print(r.content)
 
         # google id
         googleId = str(google_data['id'])
