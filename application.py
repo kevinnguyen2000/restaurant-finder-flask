@@ -6,7 +6,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 import logging
 import googlemaps
 import boto3
-import json
+import json, io
 from boto.s3.connection import S3Connection
 import requests
 from werkzeug.utils import secure_filename
@@ -190,7 +190,8 @@ def review():
         reviewTitle = request.form['reviewTitle']
         reviewRestaurant = request.form['reviewRestaurant']
         reviewText = request.form['reviewText']
-        reviewImage = request.files['reviewImage']
+        # reviewImage = request.files['reviewImage']
+        reviewImage = request.files.get('reviewImage')
 
         # google id
         googleId = str(google_data['id'])
@@ -211,18 +212,17 @@ def review():
         )
 
         # upload image
+        Key = str(googleId + "%" + reviewRestaurant)
 
-        filename = secure_filename(reviewImage.filename)
-        reviewImage.save(filename)
+        uplimage = reviewImage.read()
+        image = io.BytesIO(uplimage)
+        s3_client.upload_fileobj(image, bucket, Key)
+        
+        # make image accessible
+        s3 = boto3.resource('s3', region_name='us-east-1')
+        object_acl = s3.ObjectAcl(bucket,Key)
+        object_acl.put(ACL='public-read')
 
-        s3_client.upload_file(
-            Bucket = bucket,
-            Filename = filename,
-            Key = str(googleId + "%" + reviewRestaurant)
-            )
-
-        # removes file
-        os.remove(filename)
 
         # invoke api gateway
         url = "https://0qijwha2wc.execute-api.us-east-1.amazonaws.com/prod"
